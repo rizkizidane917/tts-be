@@ -5,7 +5,7 @@ import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const API_PORT = process.env.PORT;
   // Enable global validation
   app.useGlobalPipes(
     new ValidationPipe({
@@ -19,14 +19,14 @@ async function bootstrap() {
 
   // Optional: Enable CORS with credentials for cookies
   app.enableCors({
-    origin: 'http://localhost:3000', // your frontend URL
+    origin: process.env.HOST_WEB || 'http:localhost:3000/', // your frontend URL
     credentials: true,
   });
 
   // Optional: Global prefix
   app.setGlobalPrefix('api');
 
-  await app.listen(3001);
+  await app.listen(API_PORT);
   console.log(`🚀 Server is running on http://localhost:3001/api`);
 }
 bootstrap();
