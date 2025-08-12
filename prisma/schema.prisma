@@ -26,6 +26,7 @@ model Conversion {
   id        String   @id @default(uuid())
   text      String
   voice     String
+  language  String
   rate      Float
   pitch     Float
   volume    Float
