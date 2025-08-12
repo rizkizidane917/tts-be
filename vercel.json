@@ -1,17 +1,11 @@
 {
   "version": 2,
-  "env": {
-    "DATABASE_URL": "postgresql://postgres.duwisbgduakjjujetqpo:!Kmzway87aa123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres",
-    "DIRECT_URL": "postgresql://postgres.duwisbgduakjjujetqpo:!Kmzway87aa123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres",
-    "JWT_SECRET": "super_secret_key",
-    "JWT_EXPIRES_IN": "1d"
-  },
   "builds": [{ "src": "src/main.ts", "use": "@vercel/node" }],
   "routes": [
     {
       "src": "/(.*)",
       "dest": "src/main.ts",
-      "methods": ["GET", "POST", "DELETE"]
+      "methods": ["GET", "POST", "DELETE", "PUT", "PATCH"]
     }
   ]
 }
