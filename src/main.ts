@@ -1,4 +1,3 @@
-// main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -18,17 +17,18 @@ async function bootstrap() {
   const cookieParserFn = (cookieParser as any).default || (cookieParser as any);
   app.use(cookieParserFn());
 
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'https://tts-fe-one.vercel.app',
-  ];
+  const allowedOrigins = process.env.HOST_WEB
+    ? process.env.HOST_WEB.split(',').map((o) => o.trim())
+    : ['http://localhost:3000'];
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
       }
     },
     credentials: true,
@@ -37,6 +37,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   await app.listen(API_PORT);
-  console.log(`🚀 Server is running on http://localhost:${API_PORT}/api`);
+  console.log(`🚀 Server running at http://localhost:${API_PORT}/api`);
+  console.log(`✅ Allowed Origins: ${allowedOrigins.join(', ')}`);
 }
+
 bootstrap();
