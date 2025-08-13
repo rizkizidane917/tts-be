@@ -6,16 +6,16 @@ const prisma = new PrismaClient();
 async function main() {
   const hashed = await bcrypt.hash('testing123', 10);
   const existing = await prisma.user.findUnique({
-    where: { email: 'rj@jeppi.co' },
+    where: { email: 'testing@gmail.com' },
   });
   if (!existing) {
     await prisma.user.create({
       data: {
-        email: 'rj@jeppi.co',
+        email: 'testing@gmail.com',
         password: hashed,
       },
     });
-    console.log('Seed: created user rj@jeppi.co / testing123');
+    console.log('Seed: created user testing@gmail.com / testing123');
   } else {
     console.log('Seed: user already exists');
   }
