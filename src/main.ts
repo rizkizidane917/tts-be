@@ -19,9 +19,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   app.use((req, res, next) => {
