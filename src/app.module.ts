@@ -4,6 +4,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConversionModule } from './conversion/conversion.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -12,6 +14,7 @@ import { ConversionModule } from './conversion/conversion.module';
     AuthModule,
     ConversionModule,
   ],
-  providers: [JwtStrategy],
+  controllers: [AppController],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {}

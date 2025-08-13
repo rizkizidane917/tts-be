@@ -26,7 +26,7 @@ export class AuthController {
     // Set token in HttpOnly cookie
     res.cookie('jwt', result.access_token, {
       httpOnly: true,
-      secure: false, // change to true in production with HTTPS
+      secure: process.env.NODE_ENV === 'production' ? true : false, // change to true in production with HTTPS
       sameSite: 'lax',
     });
 
