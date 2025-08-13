@@ -43,7 +43,11 @@ async function bootstrap() {
   //   credentials: true,
   // });
 
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://tts-fe-one.vercel.app'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
   app.setGlobalPrefix('api');
 
