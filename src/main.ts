@@ -18,11 +18,43 @@ async function bootstrap() {
   app.use(cookieParserFn());
 
   app.enableCors({
-    origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
-    methods: 'GET,POST,DELETE',
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        'https://tts-fe-one.vercel.app',
+        'http://localhost:3000',
+        'https://localhost:3000',
+      ];
+
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+      'Access-Control-Allow-Credentials',
+      'Access-Control-Allow-Headers',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Origin',
+      'User-Agent',
+      'Referer',
+      'Accept-Encoding',
+      'Accept-Language',
+      'Access-Control-Request-Headers',
+      'Cache-Control',
+      'Pragma',
+    ],
     credentials: true,
-    allowedHeaders:
-      'Origin, X-Requested-With, Content-Type, Accept, Authentication, Access-control-allow-credentials, Access-control-allow-headers, Access-control-allow-methods, Access-control-allow-origin, User-Agent, Referer, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Cache-Control, Pragma',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
 
   app.setGlobalPrefix('api');
