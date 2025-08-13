@@ -21,6 +21,8 @@ async function bootstrap() {
     origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
     methods: 'GET,POST,DELETE',
     credentials: true,
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authentication, Access-control-allow-credentials, Access-control-allow-headers, Access-control-allow-methods, Access-control-allow-origin, User-Agent, Referer, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Cache-Control, Pragma',
   });
 
   app.setGlobalPrefix('api');
