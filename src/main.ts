@@ -18,43 +18,26 @@ async function bootstrap() {
   app.use(cookieParserFn());
 
   app.enableCors({
-    origin: function (origin, callback) {
-      const allowedOrigins = [
-        'https://tts-fe-one.vercel.app',
-        'http://localhost:3000',
-        'https://localhost:3000',
-      ];
-
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: [
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-      'Authorization',
-      'Access-Control-Allow-Credentials',
-      'Access-Control-Allow-Headers',
-      'Access-Control-Allow-Methods',
-      'Access-Control-Allow-Origin',
-      'User-Agent',
-      'Referer',
-      'Accept-Encoding',
-      'Accept-Language',
-      'Access-Control-Request-Headers',
-      'Cache-Control',
-      'Pragma',
-    ],
+    origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
+  app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+      res.header(
+        'Access-Control-Allow-Origin',
+        'https://tts-fe-one.vercel.app',
+      );
+      res.header(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, DELETE, OPTIONS',
+      );
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      return res.status(200).end();
+    }
+    next();
   });
 
   app.setGlobalPrefix('api');
