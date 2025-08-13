@@ -17,35 +17,9 @@ async function bootstrap() {
   const cookieParserFn = (cookieParser as any).default || (cookieParser as any);
   app.use(cookieParserFn());
 
-  // 👇 Log every incoming request's Origin header
-  app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    console.log(`Origin header: ${req.headers.origin || '(no origin header)'}`);
-    next();
-  });
-
-  const allowedOrigins = process.env.HOST_WEB
-    ? process.env.HOST_WEB.split(',').map((o) => o.trim())
-    : ['http://localhost:3000'];
-
-  // app.enableCors({
-  //   origin: (origin, callback) => {
-  //     if (!origin) {
-  //       return callback(null, true);
-  //     }
-  //     if (allowedOrigins.includes(origin)) {
-  //       return callback(null, origin);
-  //     }
-  //     return callback(new Error(`Origin ${origin} not allowed by CORS`));
-  //   },
-
-  //   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  //   credentials: true,
-  // });
-
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://tts-fe-one.vercel.app'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
+    methods: 'GET,POST,DELETE',
     credentials: true,
   });
 
@@ -53,8 +27,6 @@ async function bootstrap() {
 
   await app.listen(API_PORT);
   console.log(`🚀 Server running at http://localhost:${API_PORT}/api`);
-  console.log(`✅ Allowed Origins: ${allowedOrigins.join(', ')}`);
-  console.log(`${process.env.HOST_WEB}`);
 }
 
 bootstrap();
