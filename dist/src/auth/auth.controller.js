@@ -25,7 +25,7 @@ let AuthController = class AuthController {
         const result = await this.authService.login(dto.email, dto.password);
         res.cookie('jwt', result.access_token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production' ? true : false,
+            secure: false,
             sameSite: 'lax',
         });
         return {
