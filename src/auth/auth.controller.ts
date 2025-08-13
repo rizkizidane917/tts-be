@@ -23,19 +23,16 @@ export class AuthController {
   ) {
     const result = await this.authService.login(dto.email, dto.password);
 
-    // Set token in HttpOnly cookie
     res.cookie('jwt', result.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production' ? true : false, // change to true in production with HTTPS
+      secure: false,
       sameSite: 'lax',
     });
 
-    // Return user data and token (optional - for localStorage)
     return {
       message: 'Login successful',
       user: result.user,
       access_token: result.access_token,
-      // Uncomment if you want to include token in response for localStorage
     };
   }
 
@@ -44,7 +41,6 @@ export class AuthController {
   async logout(@Req() req, @Res({ passthrough: true }) res: Response) {
     await this.authService.logout(req.user.sub);
 
-    // Clear cookie
     res.clearCookie('jwt', {
       httpOnly: true,
       sameSite: 'lax',
