@@ -50,15 +50,6 @@ async function bootstrap() {
         origin: ['https://tts-fe-one.vercel.app', 'http://localhost:3000'],
         credentials: true,
     });
-    app.use((req, res, next) => {
-        if (req.method === 'OPTIONS') {
-            res.header('Access-Control-Allow-Origin', 'https://tts-fe-one.vercel.app');
-            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-            return res.status(200).end();
-        }
-        next();
-    });
     app.setGlobalPrefix('api');
     await app.listen(API_PORT);
     console.log(`🚀 Server running at http://localhost:${API_PORT}/api`);

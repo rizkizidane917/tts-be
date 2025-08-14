@@ -1,73 +1,113 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# ISpeak Backend (NestJS + PostgreSQL + Prisma)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+ISpeak is an advanced **Text-to-Speech** platform with a scalable backend powered by **NestJS**, **PostgreSQL**, and **Prisma ORM**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This repository contains the backend API, handling:
 
-## Description
+- User authentication (JWT + cookies)
+- Text-to-Speech conversion
+- Conversion history storage
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Installation
+## 🚀 Tech Stack
 
-```bash
-$ npm install
-```
+- [NestJS](https://nestjs.com/) - Scalable Node.js framework
+- [PostgreSQL](https://www.postgresql.org/) - Relational database
+- [Prisma ORM](https://www.prisma.io/) - Type-safe database access
+- [JWT Authentication](https://jwt.io/) - Secure user sessions
 
-## Running the app
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js ≥ 18
+- npm or yarn
+- PostgreSQL installed and running
+
+### 1. Clone repository
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/rizkizidane917/tts-be.git
+cd tts-be
 ```
 
-## Test
+### 2. Install dependencies
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Support
+### 3. Environment variables
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+DATABASE_URL=postgresql://postgres.duwisbgduakjjujetqpo:!Kmzway87aa123@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+DIRECT_URL=postgresql://postgres.duwisbgduakjjujetqpo:!Kmzway87aa123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
+JWT_SECRET="super_secret_key"
+JWT_EXPIRES_IN="1d"
+NODE_ENV=development
+PORT=4001
+HOST_WEB=http://localhost:3000,https://tts-fe-one.vercel.app
+```
 
-## Stay in touch
+### 4. Database setup
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npx prisma migrate dev --name init
+npx prisma db seed
+```
 
-## License
+### 5. Run backend
 
-Nest is [MIT licensed](LICENSE).
+```bash
+nest start --watch
+```
+
+### 6. API runs at
+
+```bash
+http://localhost:4001/api
+```
+
+## 📦 Design Decision:
+
+### Framework
+
+NestJS
+
+- Modular and scalable architecture
+- Built-in dependency injection
+- Strong TypeScript support
+
+Trade off:
+
+- Requires the Node.js runtime, which has a higher memory footprint than some lower-level runtimes.
+- More opinionated structure may limit flexibility
+
+### Database
+
+PostgreSQL
+
+- ACID-compliant and reliable for relational data
+- Good support for structured schemas and JSON fields
+- Works well with Prisma ORM
+
+Trade Off:
+
+- Advanced configuration and replication setups can be more complex
+- Slightly more resource-intensive for simple read-heavy workloads
+
+### ORM
+
+Prisma
+
+- Type-safe database access
+- Simple migrations and schema management
+- Great developer experience with auto-completion
+
+Trade Off:
+
+- Requires code generation step
+- Slight performance overhead for very complex queries due to abstraction.
