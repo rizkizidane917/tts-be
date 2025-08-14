@@ -26,7 +26,8 @@ let AuthController = class AuthController {
         res.cookie('jwt', result.access_token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         return {
             message: 'Login successful',
@@ -38,7 +39,7 @@ let AuthController = class AuthController {
         await this.authService.logout(req.user.sub);
         res.clearCookie('jwt', {
             httpOnly: true,
-            sameSite: 'none',
+            sameSite: 'lax',
         });
         return { message: 'Logout successful' };
     }
