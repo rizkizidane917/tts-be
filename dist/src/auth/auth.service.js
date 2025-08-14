@@ -58,7 +58,7 @@ let AuthService = class AuthService {
             throw new common_1.UnauthorizedException('Invalid credentials');
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid)
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException('Incorrect email or password');
         const payload = { sub: user.id, email: user.email };
         const token = this.jwtService.sign(payload);
         await this.prisma.user.update({
